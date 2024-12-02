@@ -1,13 +1,14 @@
-Day2 = {}
+Day02 = {}
 
-function Day2:new(o)
+function Day02:new(o)
   local o = o or {}
   setmetatable(o, self)
   self.__index = self
+  self.completed = true
   return o
 end
 
-function Day2:init()
+function Day02:init()
   self.answer1 = 0
   self.answer2 = 0
 
@@ -28,7 +29,8 @@ function Day2:init()
     print('unable to open file')
   end
 
-  local reportsSafety = {}
+  local reportsSafety1 = {}
+  local reportsSafety2 = {}
 
   for k, v in pairs(self.input) do
     local safe = true
@@ -45,13 +47,13 @@ function Day2:init()
       if lastVal == v2 and k2 ~= 1 then
         safe = false
         break
-      end 
-      if ( lastVal > v2 and (( lastVal - v2 ) > 3)) or ( lastVal < v2 and ((  v2 - lastVal ) > 3)) then
+      end
+      if (lastVal > v2 and ((lastVal - v2) > 3)) or (lastVal < v2 and ((v2 - lastVal) > 3)) then
         safe = false
       end
       lastVal = v2
 
-      if dir ~= 0 and lastDir ~= 0 then 
+      if dir ~= 0 and lastDir ~= 0 then
         if lastDir ~= dir then
           safe = false
           break
@@ -84,13 +86,13 @@ function Day2:init()
         if lastVal == v2 and k2 ~= 1 then
           altsafe = false
           break
-        end 
-        if ( lastVal > v2 and (( lastVal - v2 ) > 3)) or ( lastVal < v2 and ((  v2 - lastVal ) > 3)) then
+        end
+        if (lastVal > v2 and ((lastVal - v2) > 3)) or (lastVal < v2 and ((v2 - lastVal) > 3)) then
           altsafe = false
         end
         lastVal = v2
 
-        if dir ~= 0 and lastDir ~= 0 then 
+        if dir ~= 0 and lastDir ~= 0 then
           if lastDir ~= dir then
             altsafe = false
             break
@@ -99,20 +101,19 @@ function Day2:init()
         lastDir = dir
       end
       if altsafe then
-        safe = true
+        table.insert(reportsSafety2, true)
         break
       end
     end
-
-    table.insert(reportsSafety, safe)
+    table.insert(reportsSafety1, safe)
   end
 
-  for k, v in pairs(reportsSafety) do
+
+  for k, v in pairs(reportsSafety1) do
     if v then self.answer1 = self.answer1 + 1 end
   end
-end
 
-function Day2:draw()
-  love.graphics.print(tostring(self.answer1), 100, 100)
-  love.graphics.print(tostring(self.answer2), 100, 200)
+  for k, v in pairs(reportsSafety2) do
+    if v then self.answer2 = self.answer2 + 1 end
+  end
 end

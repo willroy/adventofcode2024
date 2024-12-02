@@ -1,13 +1,14 @@
-Day1 = {}
+Day01 = {}
 
-function Day1:new(o)
+function Day01:new(o)
   local o = o or {}
   setmetatable(o, self)
   self.__index = self
+  self.completed = true
   return o
 end
 
-function Day1:init()
+function Day01:init()
   self.answer1 = 0
   self.answer2 = 0
 
@@ -46,8 +47,11 @@ function Day1:init()
 
   for k, v in pairs(col1List) do
     local diff = 0
-    if v > col2List[k] then diff = (v-col2List[k])
-    else diff = (col2List[k]-v) end
+    if v > col2List[k] then
+      diff = (v - col2List[k])
+    else
+      diff = (col2List[k] - v)
+    end
     table.insert(differences, diff)
   end
 
@@ -68,17 +72,11 @@ function Day1:init()
   local totals = {}
 
   for k, v in pairs(col1List) do
-    local total = v*occurences[k]
+    local total = v * occurences[k]
     table.insert(totals, total)
   end
 
   for k, v in pairs(totals) do
     self.answer2 = self.answer2 + v
   end
-
-end
-
-function Day1:draw()
-  love.graphics.print(tostring(self.answer1), 100, 100)
-  love.graphics.print(tostring(self.answer2), 100, 200)
 end
