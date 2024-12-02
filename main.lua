@@ -54,8 +54,7 @@ local references = {
 
 function love.load()
   love.window.setTitle("countdown_app")
-  love.window.setMode(800, 800, { vsync = 1, borderless = true, display = 2 })
-  love.window.setPosition(0, 0)
+  love.window.setMode(800, 800, { vsync = 1, borderless = true })
   love.graphics.setBackgroundColor(0.1, 0.1, 0.1)
   local font = love.graphics.setNewFont(16)
   love.graphics.setFont(font)
@@ -113,6 +112,26 @@ function love.mousereleased(x, y, button, istouch)
 end
 
 function love.keypressed(key, code)
+  if key == "o" then
+    local mouseX, mouseY = love.mouse.getPosition()
+
+    for x = 1, 5 do
+      for y = 1, 5 do
+        if mouseX > 25 + (x * 110) and mouseX < 125 + (x * 110) and mouseY > (y * 110) and mouseY < 100 + (y * 110) then
+          local day = (y - 1) * 5 + x
+          if day < 10 then
+            os.execute("zed days/day0" .. tostring(day) .. ".lua")
+            return
+          else
+            os.execute("zed days/day" .. tostring(day) .. ".lua")
+            return
+          end
+        end
+      end
+    end
+
+    os.execute("zed main.lua")
+  end
   if key == "escape" then
     love.event.push("quit")
   end
