@@ -92,12 +92,13 @@ function Day03:init()
       self.answer2 = self.answer2 + v
     end
 
+    for line in file:lines() do
+      table.insert(self.input, line)
+    end
     file:close()
   else
     print('unable to open file')
   end
-
-
 end
 
 function Day03:reset()
@@ -111,8 +112,6 @@ function Day03:resetEnabler()
 end
 
 function Day03:draw()
-  -- attempt 1: 29263882 (to low!)
-  -- attempt 2: 106266108 (to high?)
   love.graphics.print(tostring("answer 1: " .. self.answer1), 100, 100)
   love.graphics.print(tostring("answer 2: " .. self.answer2), 100, 200)
 end
