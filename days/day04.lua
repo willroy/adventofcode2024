@@ -24,82 +24,155 @@ function Day04:init()
     print('unable to open file')
   end
 
-  local occurences = 0
-  local horizontal1 = ""
-  local horizontal2 = ""
-  local vertical1 = ""
-  local vertical2 = ""
-  local diagonalSE = ""
-  local diagonalSW = ""
-  local diagonalNE = ""
-  local diagonalNW = ""
+  self.occurences = 0
+  self.horizontal1 = ""
+  self.horizontal2 = ""
+  self.verticalDown = ""
+  self.verticalUp = ""
+  self.diagonalSE = ""
+  self.diagonalSW = ""
+  self.diagonalNE = ""
+  self.diagonalNW = ""
 
   for k, line in pairs(self.input) do
     for i = 1, #line do
-      local c = line:sub(i,i)
+      local c = line:sub(i, i)
 
-      if #line >= i+3 then
-        horizontal1 = c..line:sub(i,i+1)..line:sub(i,i+2)..line:sub(i,i+3)
-      end
-      if i-3 > 0 then
-        horizontal2 = c..line:sub(i-1,i)..line:sub(i-2,i)..line:sub(i-3,i)
-      end
-      if #self.input >= k+3 then
-        vertical1 = c..(self.input[k+1]:sub(i,i))..(self.input[k+2]:sub(i,i))..(self.input[k+3]:sub(i,i))
-      end
-      if k-3 > 0 then
-        vertical2 = c..(self.input[k-1]:sub(i,i))..(self.input[k-2]:sub(i,i))..(self.input[k-3]:sub(i,i))
+      -- horizontals
+
+      if #line >= (i + 3) then
+        local char2 = line:sub(i + 1, i + 1)
+        local char3 = line:sub(i + 2, i + 2)
+        local char4 = line:sub(i + 3, i + 3)
+
+        self.horizontal1 = c .. char2 .. char3 .. char4
       end
 
-      if #self.input >= k+3 and i+3 <= #self.input[k+3] then
-        diagonalSE = c..(self.input[k+1]:sub(i+1,i+1))..(self.input[k+2]:sub(i+2,i+2))..(self.input[k+3]:sub(i+3,i+3))
-      end
-      if #self.input >= k+3 and i-3 > 0 then
-        diagonalSW = c..(self.input[k+1]:sub(i-1,i-1))..(self.input[k+2]:sub(i-2,i-2))..(self.input[k+3]:sub(i-3,i-3))
-      end
-      if k-3 > 0 and i+3 <= #self.input[k-3] then
-        diagonalNE = c..(self.input[k-1]:sub(i+1,i+1))..(self.input[k-2]:sub(i+2,i+2))..(self.input[k-3]:sub(i+3,i+3))
-      end
-      if k-3 > 0 and i-3 > 0 then
-        diagonalNW = c..(self.input[k-1]:sub(i-1,i-1))..(self.input[k-2]:sub(i-2,i-2))..(self.input[k-3]:sub(i-3,i-3))
+      if (i - 3) > 0 then
+        local char2 = line:sub(i - 1, i - 1)
+        local char3 = line:sub(i - 2, i - 2)
+        local char4 = line:sub(i - 3, i - 3)
+
+        self.horizontal2 = c .. char2 .. char3 .. char4
       end
 
-      if horizontal1 == "XMAS" then
-        occurences = occurences + 1
-        print("horizontal1 "..horizontal1.." at "..k..", "..i)
+      -- verticals
+
+      if #self.input >= (k + 3) then
+        local char2 = self.input[k + 1]:sub(i, i)
+        local char3 = self.input[k + 2]:sub(i, i)
+        local char4 = self.input[k + 3]:sub(i, i)
+
+        self.verticalDown = c .. char2 .. char3 .. char4
       end
-      if horizontal2 == "XMAS" then
-        occurences = occurences + 1
-        print("horizontal2 "..horizontal2.." at "..k..", "..i)
+
+      if (k - 3) > 0 then
+        local char2 = self.input[k - 1]:sub(i, i)
+        local char3 = self.input[k - 2]:sub(i, i)
+        local char4 = self.input[k - 3]:sub(i, i)
+
+        self.verticalUp = c .. char2 .. char3 .. char4
       end
-      if vertical1 == "XMAS" then
-        occurences = occurences + 1
-        print("vertical1 "..vertical1.." at "..k..", "..i)
+
+      -- diagonals
+
+      if #self.input >= k + 3 and i + 3 <= #self.input[k + 3] then
+        local char2 = self.input[k + 1]:sub(i + 1, i + 1)
+        local char3 = self.input[k + 2]:sub(i + 2, i + 2)
+        local char4 = self.input[k + 3]:sub(i + 3, i + 3)
+
+        self.diagonalSE = c .. char2 .. char3 .. char4
       end
-      if vertical2 == "XMAS" then
-        occurences = occurences + 1
-        print("vertical2 "..vertical2.." at "..k..", "..i)
+
+      if #self.input >= k + 3 and i - 3 > 0 then
+        local char2 = self.input[k + 1]:sub(i - 1, i - 1)
+        local char3 = self.input[k + 2]:sub(i - 2, i - 2)
+        local char4 = self.input[k + 3]:sub(i - 3, i - 3)
+
+        self.diagonalSW = c .. char2 .. char3 .. char4
       end
-      if diagonalSE == "XMAS" then
-        occurences = occurences + 1
-        print("diagonalSE "..diagonalSE.." at "..k..", "..i)
+
+      if k - 3 > 0 and i + 3 <= #self.input[k - 3] then
+        local char2 = self.input[k - 1]:sub(i + 1, i + 1)
+        local char3 = self.input[k - 2]:sub(i + 2, i + 2)
+        local char4 = self.input[k - 3]:sub(i + 3, i + 3)
+
+        self.diagonalNE = c .. char2 .. char3 .. char4
       end
-      if diagonalSW == "XMAS" then
-        occurences = occurences + 1
-        print("diagonalSW "..diagonalSW.." at "..k..", "..i)
+
+      if k - 3 > 0 and i - 3 > 0 then
+        local char2 = self.input[k - 1]:sub(i - 1, i - 1)
+        local char3 = self.input[k - 2]:sub(i - 2, i - 2)
+        local char4 = self.input[k - 3]:sub(i - 3, i - 3)
+
+        self.diagonalNW = c .. char2 .. char3 .. char4
       end
-      if diagonalNE == "XMAS" then
-        occurences = occurences + 1
-        print("diagonalNE "..diagonalNE.." at "..k..", "..i)
+
+      -- count occurences
+
+      if self.horizontal1 == "XMAS" then
+        self.occurences = self.occurences + 1
+        print("self.horizontal1 " .. self.horizontal1 .. " at " .. k .. ", " .. i)
       end
-      if diagonalNW == "XMAS" then
-        occurences = occurences + 1
-        print("diagonalNW "..diagonalNW.." at "..k..", "..i)
+      if self.horizontal2 == "XMAS" then
+        self.occurences = self.occurences + 1
+        print("self.horizontal2 " .. self.horizontal2 .. " at " .. k .. ", " .. i)
+      end
+      if self.verticalDown == "XMAS" then
+        self.occurences = self.occurences + 1
+        print("self.verticalDown " .. self.verticalDown .. " at " .. k .. ", " .. i)
+      end
+      if self.verticalUp == "XMAS" then
+        self.occurences = self.occurences + 1
+        print("self.verticalUp " .. self.verticalUp .. " at " .. k .. ", " .. i)
+      end
+      if self.diagonalSE == "XMAS" then
+        self.occurences = self.occurences + 1
+        print("self.diagonalSE " .. self.diagonalSE .. " at " .. k .. ", " .. i)
+      end
+      if self.diagonalSW == "XMAS" then
+        self.occurences = self.occurences + 1
+        print("self.diagonalSW " .. self.diagonalSW .. " at " .. k .. ", " .. i)
+      end
+      if self.diagonalNE == "XMAS" then
+        self.occurences = self.occurences + 1
+        print("self.diagonalNE " .. self.diagonalNE .. " at " .. k .. ", " .. i)
+      end
+      if self.diagonalNW == "XMAS" then
+        self.occurences = self.occurences + 1
+        print("self.diagonalNW " .. self.diagonalNW .. " at " .. k .. ", " .. i)
       end
     end
   end
 
-  print(occurences/2)
+  self.answer1 = ((self.occurences / 2) * 2)
+
+  for k, line in pairs(self.input) do
+    for i = 1, #line do
+      local c = line:sub(i, i)
+
+      -- x-mas
+
+      local haveSpaceToRight = #line >= (i + 2)
+      local haveSpaceDown = #self.input >= (k + 2)
+
+      if haveSpaceToRight and haveSpaceDown then
+        local topRightToDownLeftChars =
+            line:sub(i + 2, i + 2) ..
+            self.input[k + 1]:sub(i + 2 - 1, i + 2 - 1) ..
+            self.input[k + 2]:sub(i + 2 - 2, i + 2 - 2)
+
+        local topLeftToDownRightChars =
+            c ..
+            self.input[k + 1]:sub(i + 1, i + 1) ..
+            self.input[k + 2]:sub(i + 2, i + 2)
+
+        if (topRightToDownLeftChars == "MAS" or topRightToDownLeftChars == "SAM") and (topLeftToDownRightChars == "MAS" or topLeftToDownRightChars == "SAM") then
+          self.answer2 = self.answer2 + 1
+        end
+      end
+    end
+  end
 end
 
 function Day04:draw()
