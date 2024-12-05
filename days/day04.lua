@@ -4,6 +4,7 @@ function Day04:new(o)
   local o = o or {}
   setmetatable(o, self)
   self.__index = self
+  self.completed = true
   return o
 end
 
@@ -110,38 +111,14 @@ function Day04:init()
 
       -- count occurences
 
-      if self.horizontal1 == "XMAS" then
-        self.occurences = self.occurences + 1
-        print("self.horizontal1 " .. self.horizontal1 .. " at " .. k .. ", " .. i)
-      end
-      if self.horizontal2 == "XMAS" then
-        self.occurences = self.occurences + 1
-        print("self.horizontal2 " .. self.horizontal2 .. " at " .. k .. ", " .. i)
-      end
-      if self.verticalDown == "XMAS" then
-        self.occurences = self.occurences + 1
-        print("self.verticalDown " .. self.verticalDown .. " at " .. k .. ", " .. i)
-      end
-      if self.verticalUp == "XMAS" then
-        self.occurences = self.occurences + 1
-        print("self.verticalUp " .. self.verticalUp .. " at " .. k .. ", " .. i)
-      end
-      if self.diagonalSE == "XMAS" then
-        self.occurences = self.occurences + 1
-        print("self.diagonalSE " .. self.diagonalSE .. " at " .. k .. ", " .. i)
-      end
-      if self.diagonalSW == "XMAS" then
-        self.occurences = self.occurences + 1
-        print("self.diagonalSW " .. self.diagonalSW .. " at " .. k .. ", " .. i)
-      end
-      if self.diagonalNE == "XMAS" then
-        self.occurences = self.occurences + 1
-        print("self.diagonalNE " .. self.diagonalNE .. " at " .. k .. ", " .. i)
-      end
-      if self.diagonalNW == "XMAS" then
-        self.occurences = self.occurences + 1
-        print("self.diagonalNW " .. self.diagonalNW .. " at " .. k .. ", " .. i)
-      end
+      if self.horizontal1 == "XMAS" then self.occurences = self.occurences + 1 end
+      if self.horizontal2 == "XMAS" then self.occurences = self.occurences + 1 end
+      if self.verticalDown == "XMAS" then self.occurences = self.occurences + 1 end
+      if self.verticalUp == "XMAS" then self.occurences = self.occurences + 1 end
+      if self.diagonalSE == "XMAS" then self.occurences = self.occurences + 1 end
+      if self.diagonalSW == "XMAS" then self.occurences = self.occurences + 1 end
+      if self.diagonalNE == "XMAS" then self.occurences = self.occurences + 1 end
+      if self.diagonalNW == "XMAS" then self.occurences = self.occurences + 1 end
     end
   end
 
