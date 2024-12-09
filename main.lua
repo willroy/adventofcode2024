@@ -55,7 +55,7 @@ local references = {
 
 function love.load()
   love.window.setTitle("countdown_app")
-  love.window.setMode(800, 800, { vsync = 1, borderless = true, display = 2 })
+  love.window.setMode(800, 800, { vsync = 1, borderless = true, display = 3 })
   love.graphics.setBackgroundColor(0.1, 0.1, 0.1)
   local font = love.graphics.setNewFont(16)
   love.graphics.setFont(font)

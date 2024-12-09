@@ -27,6 +27,8 @@ function Day09:init()
   self.expanded_diskmap1 = {}
   self.expanded_diskmap2 = {}
 
+  -- build up initial diskmap list
+
   local odd = true
   local evenCount = 0
   for i = 1, #self.diskmap[1] do
@@ -34,8 +36,8 @@ function Day09:init()
 
     for a = 1, tonumber(c) do
       if odd then
-        table.insert(self.expanded_diskmap1, i-evenCount-1)
-        table.insert(self.expanded_diskmap2, i-evenCount-1)
+        table.insert(self.expanded_diskmap1, i - evenCount - 1)
+        table.insert(self.expanded_diskmap2, i - evenCount - 1)
       else
         table.insert(self.expanded_diskmap1, ".")
         table.insert(self.expanded_diskmap2, ".")
@@ -80,7 +82,7 @@ function Day09:init()
 
   for k, v in pairs(self.compressed_diskmap) do
     if not (v == ".") then
-      local checksum = (k-1) * tonumber(v)
+      local checksum = (k - 1) * tonumber(v)
       self.answer1 = self.answer1 + checksum
     end
   end
@@ -92,32 +94,42 @@ function Day09:init()
   local fileTracker = {}
   for k, v in pairs(self.expanded_diskmap2) do
     if not (v == ".") then
-      if fileTracker[v] == nil then fileTracker[v] = {k, 0} end
+      if fileTracker[v] == nil then fileTracker[v] = { k, 0 } end
       fileTracker[v][2] = fileTracker[v][2] + 1
     end
   end
 
+  -- resort diskmap, look for space for each id in the fileTracker and swap if found
+
   for i = #fileTracker, 1, -1 do
     local file = fileTracker[i]
     local targetIndex = self:findSpace(self.expanded_diskmap2, file[2])
-    if targetIndex > 0 then
-      for a = targetIndex, targetIndex+file[2] do
-        self.expanded_diskmap2[a] = tostring(i)
-      end
-      for a = file[1], file[1]+file[2] do self.expanded_diskmap2[a] = "." end
+    if targetIndex > 0 and targetIndex < file[1] then
+      for a = file[1], file[1] + file[2] - 1 do self.expanded_diskmap2[a] = "." end
+      for a = targetIndex, targetIndex + file[2] - 1 do self.expanded_diskmap2[a] = tostring(i) end
     end
-    for k, v in pairs(self.expanded_diskmap2) do io.write(v) end
-    print()
+  end
+
+  -- calculate checksum for answer2
+
+  for k, v in pairs(self.expanded_diskmap2) do
+    if not (v == ".") then
+      local checksum = (k - 1) * tonumber(v)
+      self.answer2 = self.answer2 + checksum
+    end
   end
 end
 
 function Day09:findSpace(list, size)
   local spaceTracker = 0
   for k, v in pairs(list) do
-    if v == "." then spaceTracker = spaceTracker + 1
-    else spaceTracker = 0 end
+    if v == "." then
+      spaceTracker = spaceTracker + 1
+    else
+      spaceTracker = 0
+    end
     if spaceTracker == size then
-      return k-(spaceTracker-1)
+      return k - (spaceTracker - 1)
     end
   end
   return -1
