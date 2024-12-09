@@ -24,7 +24,8 @@ function Day09:init()
     print('unable to open file')
   end
 
-  self.expanded_diskmap = {}
+  self.expanded_diskmap1 = {}
+  self.expanded_diskmap2 = {}
 
   local odd = true
   local evenCount = 0
@@ -33,9 +34,11 @@ function Day09:init()
 
     for a = 1, tonumber(c) do
       if odd then
-        table.insert(self.expanded_diskmap, i-evenCount-1)
+        table.insert(self.expanded_diskmap1, i-evenCount-1)
+        table.insert(self.expanded_diskmap2, i-evenCount-1)
       else
-        table.insert(self.expanded_diskmap, ".")
+        table.insert(self.expanded_diskmap1, ".")
+        table.insert(self.expanded_diskmap2, ".")
       end
     end
 
@@ -46,16 +49,18 @@ function Day09:init()
   self.compressed_diskmap = {}
 
   self.num_count = 0
-  for k, v in pairs(self.expanded_diskmap) do
+  for k, v in pairs(self.expanded_diskmap1) do
     if not (v == ".") then
       self.num_count = self.num_count + 1
     end
   end
 
-  for k, v in pairs(self.expanded_diskmap) do
+  -- answer 1 compression
+
+  for k, v in pairs(self.expanded_diskmap1) do
     local lastNumIndex = 0
-    for i = #self.expanded_diskmap, 1, -1 do
-      local c = self.expanded_diskmap[i]
+    for i = #self.expanded_diskmap1, 1, -1 do
+      local c = self.expanded_diskmap1[i]
       if not (c == ".") then
         lastNumIndex = i
         break
@@ -65,8 +70,8 @@ function Day09:init()
       table.insert(self.compressed_diskmap, ".")
     else
       if v == "." then
-        table.insert(self.compressed_diskmap, self.expanded_diskmap[lastNumIndex])
-        self.expanded_diskmap[lastNumIndex] = "."
+        table.insert(self.compressed_diskmap, self.expanded_diskmap1[lastNumIndex])
+        self.expanded_diskmap1[lastNumIndex] = "."
       else
         table.insert(self.compressed_diskmap, v)
       end
@@ -80,7 +85,42 @@ function Day09:init()
     end
   end
 
-  print(self.answer1)
+  -- answer 2 compression
+
+  -- get indexes and size of each file
+
+  local fileTracker = {}
+  for k, v in pairs(self.expanded_diskmap2) do
+    if not (v == ".") then
+      if fileTracker[v] == nil then fileTracker[v] = {k, 0} end
+      fileTracker[v][2] = fileTracker[v][2] + 1
+    end
+  end
+
+  for i = #fileTracker, 1, -1 do
+    local file = fileTracker[i]
+    local targetIndex = self:findSpace(self.expanded_diskmap2, file[2])
+    if targetIndex > 0 then
+      for a = targetIndex, targetIndex+file[2] do
+        self.expanded_diskmap2[a] = tostring(i)
+      end
+      for a = file[1], file[1]+file[2] do self.expanded_diskmap2[a] = "." end
+    end
+    for k, v in pairs(self.expanded_diskmap2) do io.write(v) end
+    print()
+  end
+end
+
+function Day09:findSpace(list, size)
+  local spaceTracker = 0
+  for k, v in pairs(list) do
+    if v == "." then spaceTracker = spaceTracker + 1
+    else spaceTracker = 0 end
+    if spaceTracker == size then
+      return k-(spaceTracker-1)
+    end
+  end
+  return -1
 end
 
 function Day09:draw()
