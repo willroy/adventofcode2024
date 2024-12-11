@@ -4,6 +4,7 @@ function Day10:new(o)
   local o = o or {}
   setmetatable(o, self)
   self.__index = self
+  self.completed = true
   return o
 end
 

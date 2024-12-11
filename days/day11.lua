@@ -11,18 +11,53 @@ function Day11:init()
   self.answer1 = 0
   self.answer2 = 0
 
-  self.input = {}
+  self.stones = {}
 
-  local file = io.open("data/day3input.txt", 'r')
+  local file = io.open("data/day11input.txt", 'r')
 
   if file then
     for line in file:lines() do
-      table.insert(self.input, line)
+      for n in string.gmatch(line, "[^%s]+") do
+        table.insert(self.stones, tonumber(n))
+      end
     end
     file:close()
   else
     print('unable to open file')
   end
+
+  self.blinkCount = 75
+
+  for i = 1, self.blinkCount do
+    local newStones = {}
+    for k = 1, #self.stones do
+      local stoneToAdd1 = self.stones[k]
+      local stoneToAdd2 = nil
+
+      if stoneToAdd1 == 0 then
+        stoneToAdd1 = 1
+      elseif #tostring(stoneToAdd1) % 2 == 0 then
+        stoneToAdd1 = tonumber(string.sub(tostring(stoneToAdd1), 1, #tostring(stoneToAdd1)/2))
+        stoneToAdd2 = tonumber(string.sub(tostring(stoneToAdd1), (#tostring(stoneToAdd1)/2)+1, #tostring(stoneToAdd1)))
+      else
+        stoneToAdd1 = stoneToAdd1 * 2024
+      end
+
+      table.insert(newStones, stoneToAdd1)
+      if not ( stoneToAdd2 == nil ) then 
+        table.insert(newStones, stoneToAdd2)
+      end
+    end
+    self.stones = newStones
+    self:showMemory()
+  end
+
+end
+
+function Day11:showMemory()
+  collectgarbage("collect")
+  collectgarbage("collect")
+  print(collectgarbage'count' * 1024)
 end
 
 function Day11:draw()
