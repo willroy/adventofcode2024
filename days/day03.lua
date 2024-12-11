@@ -18,7 +18,7 @@ function Day03:init()
 
   self.input = {}
 
-  local file = io.open("data/day3input.txt", 'r')
+  local file = io.open("data/day03input.txt", 'r')
 
   if file then
     self.currentTracked = ""

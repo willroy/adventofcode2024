@@ -15,7 +15,7 @@ function Day05:init()
   self.rules = {}
   self.input = {}
 
-  local file = io.open("data/day5input.txt", 'r')
+  local file = io.open("data/day05input.txt", 'r')
 
   if file then
     local lineBreak = false

@@ -14,7 +14,7 @@ function Day02:init()
 
   self.input = {}
 
-  local file = io.open("data/day2input.txt", 'r')
+  local file = io.open("data/day02input.txt", 'r')
 
   if file then
     for line in file:lines() do

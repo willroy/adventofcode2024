@@ -4,6 +4,7 @@ function Day09:new(o)
   local o = o or {}
   setmetatable(o, self)
   self.__index = self
+  self.completed = true
   return o
 end
 
@@ -13,7 +14,7 @@ function Day09:init()
 
   self.diskmap = {}
 
-  local file = io.open("data/day9input.txt", 'r')
+  local file = io.open("data/day09input.txt", 'r')
 
   if file then
     for line in file:lines() do

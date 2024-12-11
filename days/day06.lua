@@ -22,7 +22,7 @@ function Day06:init()
   self.junctions = {}
   self.movementsCount = 0
 
-  local file = io.open("data/day6input.txt", 'r')
+  local file = io.open("data/day06input.txt", 'r')
 
   if file then
     y = 0

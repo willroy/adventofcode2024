@@ -17,7 +17,7 @@ function Day08:init()
   self.maxX = 0
   self.maxY = 0
 
-  local file = io.open("data/day8input.txt", 'r')
+  local file = io.open("data/day08input.txt", 'r')
 
   -- compile a list of locations by character index
 
