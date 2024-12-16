@@ -74,12 +74,16 @@ function love.draw()
       if mouseX > 25 + (x * 110) and mouseX < 125 + (x * 110) and mouseY > (y * 110) and mouseY < 100 + (y * 110) then
         if (references["day" .. tostring((y - 1) * 5 + x)].completed) then
           love.graphics.setColor(0.4, 0.7, 0.4)
+        elseif (references["day" .. tostring((y - 1) * 5 + x)].halfcompleted) then
+          love.graphics.setColor(0.4, 0.7, 0.4, 0.5)
         else
           love.graphics.setColor(0.3, 0.3, 0.3)
         end
       else
         if (references["day" .. tostring((y - 1) * 5 + x)].completed) then
           love.graphics.setColor(0.4, 0.6, 0.4)
+        elseif (references["day" .. tostring((y - 1) * 5 + x)].halfcompleted) then
+          love.graphics.setColor(0.4, 0.6, 0.4, 0.5)
         else
           love.graphics.setColor(0.2, 0.2, 0.2)
         end

@@ -4,6 +4,7 @@ function Day13:new(o)
   local o = o or {}
   setmetatable(o, self)
   self.__index = self
+  self.halfcompleted = true
   return o
 end
 
@@ -44,6 +45,37 @@ function Day13:init()
     print('unable to open file')
   end
 
+  self:part2()
+
+  print(self.answer2)
+end
+
+function Day13:part1()
+  for k, v in pairs(self.games) do
+    local winningCombinations = {}
+    for i = 1, 100 do
+      for a = 1, 100 do
+        if v[1]*i + v[3]*a == v[5] then
+          if v[2]*i + v[4]*a == v[6] then
+            table.insert(winningCombinations, {i, a})
+          end
+        end
+      end
+    end
+    if #winningCombinations > 0 then
+      local winningCombination = winningCombinations[1]
+      for k2, v2 in pairs(winningCombinations) do
+        if (v2[1]*3 + v2[2]*1) < winningCombination[1]*3 + winningCombination[2]*1 then
+          winningCombination = v2
+        end
+      end
+      -- print("game ".. k..": A "..winningCombination[1].." times and B "..winningCombination[2].." times is a win")
+      self.answer2 = self.answer2 + (winningCombination[1]*3 + winningCombination[2]*1)
+    end
+  end
+end
+
+function Day13:part2()
   for k, v in pairs(self.games) do
     local winningCombinations = {}
     for i = 1, 100 do
@@ -63,11 +95,9 @@ function Day13:init()
         end
       end
       print("game ".. k..": A "..winningCombination[1].." times and B "..winningCombination[2].." times is a win")
-      self.answer1 = self.answer1 + (winningCombination[1]*3 + winningCombination[2]*1)
+      self.answer2 = self.answer2 + (winningCombination[1]*3 + winningCombination[2]*1)
     end
   end
-
-  print(self.answer1)
 end
 
 function Day13:draw()
